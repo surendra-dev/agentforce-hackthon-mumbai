@@ -1,0 +1,169 @@
+<template>
+    <div class="dashboard-shell">
+        <lightning-button
+            label="Back to Home"
+            icon-name="utility:back"
+            variant="base"
+            onclick={handleBackHome}
+            class="back-home-button">
+        </lightning-button>
+
+        <!-- Welcome Header -->
+        <div class="dashboard-header">
+            <div class="header-text">
+                <p class="dashboard-kicker">Patient Dashboard</p>
+                <h1 class="welcome-title">Welcome, {userName}</h1>
+                <p class="welcome-subtitle">Track upcoming visits, review past appointments, and keep your care schedule organized.</p>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <button class={upcomingCardClass} data-filter="upcoming" onclick={handleFilterSelect}>
+                <p class="stat-label">Upcoming</p>
+                <p class="stat-value stat-primary">{stats.upcoming}</p>
+                <p class="stat-caption">Appointments currently active</p>
+            </button>
+
+            <button class={totalCardClass} data-filter="total" onclick={handleFilterSelect}>
+                <p class="stat-label">Total Booked</p>
+                <p class="stat-value stat-accent">{stats.total}</p>
+                <p class="stat-caption">All tracked appointments</p>
+            </button>
+
+            <button class={canceledCardClass} data-filter="canceled" onclick={handleFilterSelect}>
+                <p class="stat-label">Cancelled</p>
+                <p class="stat-value stat-error">{stats.canceled}</p>
+                <p class="stat-caption">Appointments not completed</p>
+            </button>
+        </div>
+
+        <!-- Loading -->
+        <template if:true={isLoading}>
+            <div class="loading-container">
+                <lightning-spinner
+                    alternative-text="Loading"
+                    size="medium">
+                </lightning-spinner>
+            </div>
+        </template>
+
+        <!-- Appointments -->
+        <template if:false={isLoading}>
+            <template if:true={hasSelectedFilter}>
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-heading">{sectionHeading}</h2>
+                        <p class="section-subheading">{sectionSubheading}</p>
+                    </div>
+                </div>
+
+                <template if:true={hasFilteredAppointments}>
+                    <div class="appointment-list">
+                        <template for:each={filteredAppointments} for:item="appt">
+
+                            <div key={appt.id} class="appointment-card upcoming-card">
+                                <div class="card-accent"></div>
+
+                                <div class="appt-main">
+
+                                    <div class="appt-info">
+
+                                        <div class="appt-header-row">
+                                            <div class="appt-heading-block">
+                                                <p class="appt-overline">Appointment</p>
+                                                <h3 class="appt-title">{appt.subject}</h3>
+                                            </div>
+                                            <span class={appt.statusBadgeClass}>{appt.status}</span>
+                                        </div>
+
+                                        <div class="appt-details-grid">
+
+                                            <div class="appt-detail-card">
+                                                <span class="appt-detail-label">Doctor</span>
+                                                <span class="appt-detail">
+                                                    <lightning-icon
+                                                        icon-name="utility:user"
+                                                        size="xx-small">
+                                                    </lightning-icon>
+                                                    {appt.providerName}
+                                                </span>
+                                            </div>
+
+                                            <div class="appt-detail-card">
+                                                <span class="appt-detail-label">Center</span>
+                                                <span class="appt-detail">
+                                                    <lightning-icon
+                                                        icon-name="utility:location"
+                                                        size="xx-small">
+                                                    </lightning-icon>
+                                                    {appt.facilityName}
+                                                </span>
+                                            </div>
+
+                                            <div class="appt-detail-card">
+                                                <span class="appt-detail-label">Date</span>
+                                                <span class="appt-detail">
+                                                    <lightning-icon
+                                                        icon-name="utility:event"
+                                                        size="xx-small">
+                                                    </lightning-icon>
+                                                    {appt.formattedDate}
+                                                </span>
+                                            </div>
+
+                                            <div class="appt-detail-card">
+                                                <span class="appt-detail-label">Time</span>
+                                                <span class="appt-detail">
+                                                    <lightning-icon
+                                                        icon-name="utility:clock"
+                                                        size="xx-small">
+                                                    </lightning-icon>
+                                                    {appt.formattedTime}
+                                                </span>
+                                            </div>
+
+                                        </div>
+
+                                        <template if:true={appt.description}>
+                                            <div class="appt-reason-block">
+                                                <span class="appt-detail-label">Reason for Visit</span>
+                                                <p class="appt-reason">{appt.description}</p>
+                                            </div>
+                                        </template>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+                <template if:false={hasFilteredAppointments}>
+                    <div class="empty-state">
+                        <lightning-icon
+                            icon-name="utility:event"
+                            size="large"
+                            class="empty-icon">
+                        </lightning-icon>
+                        <p class="empty-title">{emptyTitle}</p>
+                        <p class="empty-text">{emptyText}</p>
+                    </div>
+                </template>
+            </template>
+
+            <template if:false={hasSelectedFilter}>
+                <div class="empty-state empty-state-neutral">
+                    <lightning-icon
+                        icon-name="utility:dashboard"
+                        size="large"
+                        class="empty-icon">
+                    </lightning-icon>
+                    <p class="empty-title">{selectionPromptTitle}</p>
+                    <p class="empty-text">{selectionPromptText}</p>
+                </div>
+            </template>
+        </template>
+    </div>
+</template>

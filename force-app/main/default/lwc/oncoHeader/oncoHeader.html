@@ -1,0 +1,40 @@
+<template>
+    <header class="onco-header">
+        <div class="header-glow header-glow-left"></div>
+        <div class="header-glow header-glow-right"></div>
+        <div class="header-inner">
+            <div class="brand-block">
+                <div class="brand-logo-shell">
+                    <img src={logoUrl} alt="Onco Global" class="brand-logo">
+                </div>
+
+                <div class="brand-copy">
+                    <p class="brand-kicker">Cancer Care Network</p>
+                    <div class="home-tab">
+                        <span class="home-label">Home</span>
+                        <span class="home-indicator"></span>
+                    </div>
+                    <p class="brand-tagline">Connected care, specialist access, and patient-first experiences in one place.</p>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <div class="signed-in-block">
+                    <span class="signed-in-label">Signed in as</span>
+                    <strong class="signed-in-name">{userName}</strong>
+                </div>
+
+                <button class="logout-action" type="button" onclick={handleLogoutClick}>
+                    <lightning-icon icon-name="utility:logout" size="x-small" alternative-text=""></lightning-icon>
+                    <span>Logout</span>
+                </button>
+
+                <div class="header-orbit">
+                    <span class="orbit-ring orbit-ring-one"></span>
+                    <span class="orbit-ring orbit-ring-two"></span>
+                    <span class="orbit-core"></span>
+                </div>
+            </div>
+        </div>
+    </header>
+</template>

@@ -1,0 +1,388 @@
+:host {
+    display: block;
+    --onco-header-bg-start: #0a4666;
+    --onco-header-bg-mid: #0f5a81;
+    --onco-header-bg-end: #133f5a;
+    --onco-header-gold: #e0b16e;
+    --onco-header-ice: #8fd6ff;
+}
+
+.onco-header {
+    position: relative;
+    overflow: visible;
+    z-index: 20;
+    background:
+        radial-gradient(circle at 12% 20%, rgba(143, 214, 255, 0.18), transparent 18%),
+        radial-gradient(circle at 86% 26%, rgba(224, 177, 110, 0.16), transparent 16%),
+        linear-gradient(120deg, var(--onco-header-bg-start), var(--onco-header-bg-mid) 48%, var(--onco-header-bg-end));
+    border-top: 4px solid #8a6249;
+    border-radius: 0 0 1.2rem 1.2rem;
+    box-shadow: 0 18px 42px rgba(13, 48, 67, 0.2);
+}
+
+.onco-header::before,
+.onco-header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.onco-header::before {
+    background:
+        radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.1) 0, rgba(255, 255, 255, 0.1) 1%, transparent 6%),
+        radial-gradient(circle at 82% 72%, rgba(255, 255, 255, 0.06) 0, rgba(255, 255, 255, 0.06) 1.3%, transparent 8%);
+    opacity: 0.9;
+}
+
+.onco-header::after {
+    background-image:
+        linear-gradient(30deg, rgba(255, 255, 255, 0.06) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.06) 87.5%, rgba(255, 255, 255, 0.06)),
+        linear-gradient(150deg, rgba(255, 255, 255, 0.04) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.04) 87.5%, rgba(255, 255, 255, 0.04)),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 2%, transparent 2.5%, transparent 97%, rgba(255, 255, 255, 0.025) 97.5%, rgba(255, 255, 255, 0.025));
+    background-size: 180px 156px, 180px 156px, 180px 156px;
+    background-position: 120px 34px, 120px 34px, 120px 34px;
+    opacity: 0.4;
+}
+
+.header-glow {
+    position: absolute;
+    width: 15rem;
+    height: 15rem;
+    border-radius: 50%;
+    filter: blur(12px);
+    opacity: 0.32;
+    pointer-events: none;
+}
+
+.header-glow-left {
+    top: -5rem;
+    left: -2rem;
+    background: radial-gradient(circle, rgba(143, 214, 255, 0.7), transparent 68%);
+}
+
+.header-glow-right {
+    right: 8%;
+    top: 1rem;
+    background: radial-gradient(circle, rgba(224, 177, 110, 0.52), transparent 70%);
+}
+
+.header-inner {
+    position: relative;
+    z-index: 1;
+    min-height: 192px;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 1.4rem 3.2rem 1.55rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.brand-block {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    min-width: 0;
+}
+
+.brand-logo-shell {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 8rem;
+    height: 8rem;
+    border-radius: 2rem;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04));
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.16),
+        0 14px 28px rgba(2, 25, 39, 0.2);
+    backdrop-filter: blur(6px);
+}
+
+.brand-logo {
+    width: 7.4rem;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.brand-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.55rem;
+    min-width: 0;
+}
+
+.brand-kicker {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.home-tab {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.55rem;
+    min-width: 5rem;
+}
+
+.home-label {
+    color: #ffffff;
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    text-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+}
+
+.home-indicator {
+    width: 4.2rem;
+    height: 4px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--onco-header-ice), rgba(255, 255, 255, 0.92));
+    box-shadow: 0 0 18px rgba(143, 214, 255, 0.48);
+}
+
+.brand-tagline {
+    margin: 0;
+    max-width: 32rem;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.88rem;
+    line-height: 1.45;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.15rem;
+    flex-shrink: 0;
+}
+
+.signed-in-block {
+    max-width: 12rem;
+    min-width: 0;
+    color: #ffffff;
+    text-align: right;
+}
+
+.signed-in-label {
+    display: block;
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.signed-in-name {
+    display: block;
+    color: #ffffff;
+    font-size: 0.86rem;
+    line-height: 1.3;
+    margin-top: 0.18rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.logout-action {
+    appearance: none;
+    min-height: 2.6rem;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    color: #ffffff;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.18),
+        0 12px 28px rgba(2, 25, 39, 0.18);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    font-weight: 700;
+    font: inherit;
+    padding: 0 0.9rem;
+}
+
+.logout-action:hover {
+    background: rgba(255, 255, 255, 0.22);
+    transform: translateY(-1px);
+}
+
+.logout-action:focus {
+    outline: none;
+}
+
+.logout-action:focus-visible {
+    box-shadow:
+        0 0 0 3px rgba(143, 214, 255, 0.34),
+        0 12px 28px rgba(2, 25, 39, 0.18);
+}
+
+.logout-action lightning-icon {
+    --slds-c-icon-color-foreground-default: currentColor;
+}
+
+.header-orbit {
+    position: relative;
+    flex-shrink: 0;
+    width: 8.5rem;
+    height: 8.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.orbit-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.orbit-ring-one {
+    width: 8.5rem;
+    height: 8.5rem;
+}
+
+.orbit-ring-two {
+    width: 5.8rem;
+    height: 5.8rem;
+    border-color: rgba(143, 214, 255, 0.24);
+}
+
+.orbit-core {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--onco-header-gold), #fff3d9);
+    box-shadow: 0 0 22px rgba(224, 177, 110, 0.62);
+}
+
+@media (max-width: 1024px) {
+    .header-inner {
+        padding: 1.2rem 1.5rem;
+        min-height: 168px;
+    }
+
+    .brand-logo-shell {
+        width: 6.6rem;
+        height: 6.6rem;
+    }
+
+    .brand-logo {
+        width: 6rem;
+    }
+
+    .brand-block {
+        gap: 1.2rem;
+    }
+
+    .home-label {
+        font-size: 1.45rem;
+    }
+
+    .brand-tagline {
+        font-size: 0.8rem;
+        max-width: 24rem;
+    }
+
+    .header-actions {
+        gap: 0.8rem;
+    }
+
+    .signed-in-block {
+        max-width: 10rem;
+    }
+
+    .logout-action {
+        min-height: 2.45rem;
+        padding: 0 0.75rem;
+    }
+
+    .header-orbit {
+        width: 6rem;
+        height: 6rem;
+    }
+
+    .orbit-ring-one {
+        width: 6rem;
+        height: 6rem;
+    }
+
+    .orbit-ring-two {
+        width: 4.1rem;
+        height: 4.1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-inner {
+        min-height: auto;
+        padding: 1rem;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .brand-block {
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .brand-logo-shell {
+        width: 5.4rem;
+        height: 5.4rem;
+    }
+
+    .brand-logo {
+        width: 4.8rem;
+    }
+
+    .brand-kicker {
+        font-size: 0.6rem;
+    }
+
+    .home-label {
+        font-size: 1.15rem;
+    }
+
+    .home-indicator {
+        width: 3rem;
+    }
+
+    .brand-tagline {
+        font-size: 0.74rem;
+    }
+
+    .header-actions {
+        margin-left: auto;
+        align-items: flex-end;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .signed-in-block {
+        max-width: 8.5rem;
+    }
+
+    .logout-action {
+        min-height: 2.35rem;
+        padding: 0 0.65rem;
+    }
+
+    .header-orbit {
+        display: none;
+    }
+}

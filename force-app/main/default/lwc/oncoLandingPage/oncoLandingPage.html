@@ -1,0 +1,183 @@
+<template>
+    <template if:true={showPatientDashboard}>
+        <c-onco-patient-dashboard onhome={navigateToHome}></c-onco-patient-dashboard>
+    </template>
+
+    <template if:true={showHospitalList}>
+        <c-onco-hospital-list onhome={navigateToHome}></c-onco-hospital-list>
+    </template>
+
+    <template if:true={showDoctorList}>
+        <c-onco-doctor-list onhome={navigateToHome}></c-onco-doctor-list>
+    </template>
+
+    <template if:true={showLandingContent}>
+        <div class="portal-page">
+            <div class="page-shell">
+                <section class="hero-section">
+                    <div class="hero-panel">
+                        <div class="hero-content">
+                            <div class="hero-badge">
+                                <img src={headerLogoUrl} alt="Onco Global" class="hero-badge-logo">
+                                <span class="badge-dot"></span>
+                                <span class="badge-text">AI-POWERED PATIENT PORTAL</span>
+                            </div>
+                            <h1 class="hero-title">
+                                Your Cancer Care,
+                                <span class="hero-title-accent">Simplified</span>
+                            </h1>
+                            <p class="hero-subtitle">
+                                Navigate oncology hospitals, find the right specialists, and manage your care journey from one secure digital front door.
+                            </p>
+
+                            <div class="hero-actions">
+                                <lightning-button
+                                    label="Patient Dashboard"
+                                    variant="brand"
+                                    icon-name="utility:apps"
+                                    class="hero-btn-primary"
+                                    onclick={handleBookAppointment}>
+                                </lightning-button>
+
+                                <lightning-button
+                                    label="Hospital List"
+                                    variant="neutral"
+                                    icon-name="utility:location"
+                                    class="hero-btn-secondary"
+                                    onclick={navigateToHospitals}>
+                                </lightning-button>
+
+                                <lightning-button
+                                    label="Doctor List"
+                                    variant="neutral"
+                                    icon-name="utility:people"
+                                    class="hero-btn-secondary"
+                                    onclick={navigateToDoctors}>
+                                </lightning-button>
+                            </div>
+
+                            <div class="hero-highlights">
+                                <div class="highlight-chip">
+                                    <lightning-icon icon-name="utility:event" size="xx-small" alternative-text="Appointments"></lightning-icon>
+                                    <span>Easy appointment access</span>
+                                </div>
+                                <div class="highlight-chip">
+                                    <lightning-icon icon-name="utility:shield" size="xx-small" alternative-text="Secure"></lightning-icon>
+                                    <span>Trusted care network</span>
+                                </div>
+                                <div class="highlight-chip">
+                                    <lightning-icon icon-name="utility:chat" size="xx-small" alternative-text="Guidance"></lightning-icon>
+                                    <span>Guided specialist discovery</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hero-side-panel">
+                            <div class="hero-photo-card">
+                                <img src={oncologyPhotoUrl} alt="Oncology care" class="hero-photo">
+                                <div class="hero-photo-overlay">
+                                    <span class="hero-photo-kicker">Coordinated Oncology Care</span>
+                                    <p class="hero-photo-copy">One place for hospitals, providers, and patient-friendly access.</p>
+                                </div>
+                            </div>
+
+                            <div class="snapshot-panel">
+                                <p class="hero-side-kicker">Quick Snapshot</p>
+                                <div class="hero-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-number">500K+</span>
+                                        <span class="stat-label">Patients Served</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-number">10+</span>
+                                        <span class="stat-label">Hospitals</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-number">150+</span>
+                                        <span class="stat-label">Specialists</span>
+                                    </div>
+                                </div>
+                                <div class="hero-side-note">
+                                    Use the quick actions to open dashboard, hospitals, or specialists directly.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="care-strip">
+                    <div class="care-strip-card">
+                        <div class="care-strip-icon">
+                            <lightning-icon icon-name="utility:event" size="x-small" alternative-text="Schedule"></lightning-icon>
+                        </div>
+                        <div>
+                            <p class="care-strip-title">Schedule Faster</p>
+                            <p class="care-strip-text">Move from search to appointment without long call queues.</p>
+                        </div>
+                    </div>
+
+                    <div class="care-strip-card">
+                        <div class="care-strip-icon">
+                            <lightning-icon icon-name="utility:location" size="x-small" alternative-text="Hospitals"></lightning-icon>
+                        </div>
+                        <div>
+                            <p class="care-strip-title">Find the Right Center</p>
+                            <p class="care-strip-text">Explore facilities across the network based on your needs.</p>
+                        </div>
+                    </div>
+
+                    <div class="care-strip-card">
+                        <div class="care-strip-icon">
+                            <lightning-icon icon-name="utility:user" size="x-small" alternative-text="Doctors"></lightning-icon>
+                        </div>
+                        <div>
+                            <p class="care-strip-title">Connect to Specialists</p>
+                            <p class="care-strip-text">Discover providers by specialty, facility, and availability.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="features-section">
+                    <div class="section-header">
+                        <span class="section-label">Why Choose Us</span>
+                        <h2 class="section-title">Digital Care Tools Built for Fast Access</h2>
+                    </div>
+                    <div class="features-grid">
+                        <template for:each={features} for:item="feature">
+                            <div key={feature.id} class="feature-card">
+                                <div class="feature-icon-wrap">
+                                    <lightning-icon icon-name={feature.icon} size="x-small" alternative-text={feature.title}></lightning-icon>
+                                </div>
+                                <div class="feature-copy">
+                                    <h3 class="feature-title">{feature.title}</h3>
+                                    <p class="feature-desc">{feature.desc}</p>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </section>
+
+                <section class="specialties-section">
+                    <div class="section-header">
+                        <span class="section-label">Specialties</span>
+                        <h2 class="section-title">Explore Oncology Services</h2>
+                    </div>
+                    <div class="specialties-grid">
+                        <template for:each={specialties} for:item="spec">
+                            <div key={spec.id} class="specialty-card" onclick={handleSpecialtyClick} data-specialty={spec.name}>
+                                <div class="specialty-icon-wrap">
+                                    <lightning-icon icon-name="standard:medication" size="x-small" alternative-text={spec.name}></lightning-icon>
+                                </div>
+                                <div class="specialty-info">
+                                    <p class="specialty-name">{spec.name}</p>
+                                    <p class="specialty-desc">{spec.desc}</p>
+                                </div>
+                                <lightning-icon icon-name="utility:chevronright" size="xx-small" class="specialty-arrow"></lightning-icon>
+                            </div>
+                        </template>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </template>
+</template>

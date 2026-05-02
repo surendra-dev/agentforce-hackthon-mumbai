@@ -1,0 +1,165 @@
+<template>
+    <div class="doctor-shell">
+        <template if:false={isFacilityScoped}>
+            <lightning-button
+                label="Back to Home"
+                icon-name="utility:back"
+                variant="base"
+                onclick={handleBackHome}
+                class="back-home-button">
+            </lightning-button>
+        </template>
+
+        <div class="page-header">
+            <div class="page-header-copy">
+                <p class="page-kicker">Doctor Directory</p>
+                <h1 class="page-title">{pageTitle}</h1>
+                <p class="page-subtitle">{pageSubtitle}</p>
+            </div>
+
+            <template if:true={isFacilityScoped}>
+                <div class="scoped-pill">
+                    <lightning-icon icon-name="utility:location" size="xx-small" alternative-text="Hospital"></lightning-icon>
+                    <span>{resolvedFacilityName}</span>
+                </div>
+            </template>
+        </div>
+
+        <template if:true={initialFacilityId}>
+            <lightning-button
+                label="Back to Hospitals"
+                icon-name="utility:back"
+                variant="base"
+                onclick={handleBack}
+                class="back-button">
+            </lightning-button>
+        </template>
+
+        <div class="filters-bar">
+            <div class="filter-search">
+                <lightning-input
+                    type="search"
+                    placeholder="Search by doctor name or title..."
+                    value={searchTerm}
+                    onchange={handleSearch}>
+                </lightning-input>
+            </div>
+
+            <template if:true={showFacilityFilter}>
+                <div class="filter-select">
+                    <lightning-combobox
+                        label="Hospital"
+                        value={selectedFacility}
+                        options={facilityOptions}
+                        onchange={handleFacilityChange}
+                        placeholder="All Hospitals">
+                    </lightning-combobox>
+                </div>
+            </template>
+
+            <div class="filter-select">
+                <lightning-combobox
+                    label="Specialty"
+                    value={selectedSpecialty}
+                    options={specialtyOptions}
+                    onchange={handleSpecialtyChange}
+                    placeholder="All Specialties">
+                </lightning-combobox>
+            </div>
+        </div>
+
+        <p class="result-count">{resultCount} specialist(s) found</p>
+
+        <template if:true={isLoading}>
+            <div class="loading-container">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:true={isEmpty}>
+            <div class="empty-state">
+                <lightning-icon icon-name="standard:people" size="large"></lightning-icon>
+                <p class="empty-title">No doctors found</p>
+                <p class="empty-text">Try another specialty or search term.</p>
+            </div>
+        </template>
+
+        <template if:false={isLoading}>
+            <div class="doctor-grid">
+                <template for:each={filteredDoctors} for:item="doc">
+                    <div key={doc.id} class="doctor-card">
+                        <div class="doctor-header">
+                            <div class="doctor-avatar">
+                                <lightning-icon icon-name="standard:user" size="small"></lightning-icon>
+                            </div>
+
+                            <div class="doctor-info">
+                                <div class="doctor-info-top">
+                                    <div>
+                                        <h3 class="doctor-name">{doc.name}</h3>
+                                        <p class="doctor-specialty">{doc.specialty}</p>
+                                    </div>
+                                    <span class="doctor-status">{doc.status}</span>
+                                </div>
+
+                                <template if:true={doc.subtitle}>
+                                    <p class="doctor-subtitle">{doc.subtitle}</p>
+                                </template>
+                            </div>
+                        </div>
+
+                        <div class="doctor-details-grid">
+                            <template if:true={doc.qualification}>
+                                <div class="detail-card">
+                                    <span class="detail-label">Provider Class</span>
+                                    <p class="detail-row">
+                                        <lightning-icon icon-name="utility:education" size="xx-small"></lightning-icon>
+                                        <span class="detail-text">{doc.qualification}</span>
+                                    </p>
+                                </div>
+                            </template>
+
+                            <div class="detail-card">
+                                <span class="detail-label">Experience</span>
+                                <p class="detail-row">
+                                    <lightning-icon icon-name="utility:clock" size="xx-small"></lightning-icon>
+                                    <span>{doc.experienceYears} years</span>
+                                </p>
+                            </div>
+
+                            <template if:true={doc.facilityName}>
+                                <div class="detail-card">
+                                    <span class="detail-label">Hospital</span>
+                                    <p class="detail-row">
+                                        <lightning-icon icon-name="utility:location" size="xx-small"></lightning-icon>
+                                        <span class="detail-text">{doc.facilityName}</span>
+                                    </p>
+                                </div>
+                            </template>
+
+                            <template if:true={doc.phone}>
+                                <div class="detail-card">
+                                    <span class="detail-label">Phone</span>
+                                    <p class="detail-row">
+                                        <lightning-icon icon-name="utility:call" size="xx-small"></lightning-icon>
+                                        <span>{doc.phone}</span>
+                                    </p>
+                                </div>
+                            </template>
+                        </div>
+
+                        <!-- <lightning-button
+                            label="Book Appointment"
+                            variant="brand"
+                            icon-name="utility:event"
+                            data-doctor-id={doc.id}
+                            data-facility-id={doc.facilityId}
+                            onclick={handleBookDoctor}
+                            class="book-btn">
+                        </lightning-button> -->
+                    </div>
+                </template>
+            </div>
+        </template>
+    </div>
+</template>

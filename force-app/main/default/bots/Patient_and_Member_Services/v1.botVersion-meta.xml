@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BotVersion xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>v1</fullName>
+    <articleAnswersGPTEnabled>false</articleAnswersGPTEnabled>
+    <botDialogs>
+        <botSteps>
+            <botMessages>
+                <message>Welcome to Onco Global Cancer Care Network! 
+I&apos;m OncoAssist Agent, your personal health assistant.
+
+I can help you with:
+- Finding the right specialist
+- Booking appointments
+- Managing existing appointments
+- Answering health queries
+
+Please say &quot;Hello&quot; to get started!</message>
+                <messageIdentifier>9a4fbfa5-2538-45af-82e4-99d97e0b5cdc</messageIdentifier>
+            </botMessages>
+            <stepIdentifier>dfda4058-d3e4-4c7c-b9e1-2a5dfd68585c</stepIdentifier>
+            <type>Message</type>
+        </botSteps>
+        <botSteps>
+            <stepIdentifier>35e992b5-bf5b-4611-b906-863c432a2120</stepIdentifier>
+            <type>Wait</type>
+        </botSteps>
+        <developerName>Welcome</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Hi! I&apos;m your helpful bot.</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <botDialogs>
+        <botSteps>
+            <botMessages>
+                <message>I&apos;m sorry, I encountered an issue processing 
+your request. Please try again or call our 
+helpline at 1800-ONCO-CARE for immediate 
+assistance. We apologize for the inconvenience.</message>
+                <messageIdentifier>8a800500-2970-45d7-a19b-c6e9a1eac61f</messageIdentifier>
+            </botMessages>
+            <stepIdentifier>189220b3-7a69-43f9-a1f6-8d634b266d96</stepIdentifier>
+            <type>Message</type>
+        </botSteps>
+        <botSteps>
+            <stepIdentifier>39f4e258-aa83-413d-98fe-c3ae37e6c98b</stepIdentifier>
+            <type>Wait</type>
+        </botSteps>
+        <developerName>Error_Handling</developerName>
+        <isPlaceholderDialog>false</isPlaceholderDialog>
+        <label>Unfortunately, a system error occurred. Let us start again.</label>
+        <showInFooterMenu>false</showInFooterMenu>
+    </botDialogs>
+    <citationsEnabled>false</citationsEnabled>
+    <company>Onco Global is a cancer care network in India with multiple hospitals. It provides oncology services and aims to improve patient experience through AI-driven self-service. Patients need help finding doctors, selecting locations, and managing appointments.</company>
+    <conversationDefinitionPlanners>
+        <genAiPlannerName>Patient_and_Member_Services</genAiPlannerName>
+    </conversationDefinitionPlanners>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <description>This variable may also be referred to as VerifiedCustomerId</description>
+        <developerName>VerifiedCustomerId</developerName>
+        <includeInPrompt>false</includeInPrompt>
+        <label>VerifiedCustomerId</label>
+        <visibility>Internal</visibility>
+    </conversationVariables>
+    <entryDialog>Welcome</entryDialog>
+    <intentDisambiguationEnabled>false</intentDisambiguationEnabled>
+    <intentV3Enabled>false</intentV3Enabled>
+    <knowledgeActionEnabled>false</knowledgeActionEnabled>
+    <knowledgeFallbackEnabled>false</knowledgeFallbackEnabled>
+    <role>You are an AI assistant for Onco Global. Help patients find oncology providers, suggest hospitals based on location, and manage appointments (book, reschedule, cancel). Ask relevant questions and guide users clearly with an empathetic approach.</role>
+    <smallTalkEnabled>false</smallTalkEnabled>
+    <staticPromptsEnabled>false</staticPromptsEnabled>
+    <stopRecPrompts>false</stopRecPrompts>
+    <stopWelcomePrompts>false</stopWelcomePrompts>
+    <surfacesEnabled>false</surfacesEnabled>
+    <toneType>Casual</toneType>
+</BotVersion>

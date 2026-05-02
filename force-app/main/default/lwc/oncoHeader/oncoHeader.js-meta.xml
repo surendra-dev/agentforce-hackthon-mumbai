@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Onco Header</masterLabel>
+    <description>Standalone header with Onco Global branding for Experience Cloud header regions</description>
+    <targets>
+		<target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+        <target>lightning__AppPage</target>
+	</targets>
+</LightningComponentBundle>

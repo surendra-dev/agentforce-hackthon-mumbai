@@ -1,0 +1,118 @@
+<template>
+    <template if:true={showHospitalDirectory}>
+        <div class="hospital-shell">
+            <lightning-button
+                label="Back to Home"
+                icon-name="utility:back"
+                variant="base"
+                onclick={handleBackHome}
+                class="back-home-button">
+            </lightning-button>
+
+            <div class="page-banner">
+                <p class="banner-kicker">Hospital Directory</p>
+                <h1 class="banner-title">Our Hospital Network</h1>
+                <p class="banner-subtitle">Browse cancer care centers across the network and open doctors for a selected hospital.</p>
+            </div>
+
+            <div class="search-panel">
+                <lightning-input
+                    type="search"
+                    placeholder="Search by hospital name, city, or state..."
+                    value={searchTerm}
+                    onchange={handleSearch}
+                    class="search-input">
+                </lightning-input>
+            </div>
+
+            <template if:true={isLoading}>
+                <div class="loading-container">
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+            <template if:true={isEmpty}>
+                <div class="empty-state">
+                    <lightning-icon icon-name="standard:location" size="large" class="empty-icon"></lightning-icon>
+                    <p class="empty-title">No hospitals found</p>
+                    <p class="empty-text">Try a different hospital name, city, or state.</p>
+                </div>
+            </template>
+
+            <template if:false={isLoading}>
+                <div class="directory-meta">
+                    <p class="result-count">{resultCount} hospital(s) found</p>
+                </div>
+
+                <div class="hospital-grid">
+                    <template for:each={filteredFacilities} for:item="hospital">
+                        <div key={hospital.id} class="hospital-card">
+                            <div class="hospital-card-top">
+                                <div class="hospital-card-header">
+                                    <h3 class="hospital-name">{hospital.name}</h3>
+                                    <template if:true={hospital.locationType}>
+                                        <span class="hospital-type-pill">{hospital.locationType}</span>
+                                    </template>
+                                </div>
+
+                                <div class="bed-badge">
+                                    <lightning-icon icon-name="utility:bed" size="xx-small"></lightning-icon>
+                                    <span>{hospital.bedCount} beds</span>
+                                </div>
+                            </div>
+
+                            <div class="hospital-details-grid">
+                                <div class="detail-card">
+                                    <span class="detail-label">Address</span>
+                                    <p class="detail-row">
+                                        <lightning-icon icon-name="utility:location" size="xx-small"></lightning-icon>
+                                        <span>{hospital.address}</span>
+                                    </p>
+                                </div>
+
+                                <template if:true={hospital.phone}>
+                                    <div class="detail-card">
+                                        <span class="detail-label">Phone</span>
+                                        <p class="detail-row">
+                                            <lightning-icon icon-name="utility:call" size="xx-small"></lightning-icon>
+                                            <span>{hospital.phone}</span>
+                                        </p>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <div class="card-actions">
+                                <lightning-button
+                                    label="View Doctors"
+                                    variant="brand"
+                                    data-id={hospital.id}
+                                    data-name={hospital.name}
+                                    onclick={handleViewDoctors}
+                                    class="action-btn-primary">
+                                </lightning-button>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </div>
+    </template>
+
+    <template if:true={showDoctorDirectory}>
+        <div class="doctor-view-shell">
+            <lightning-button
+                label="Back to Home"
+                icon-name="utility:back"
+                variant="base"
+                onclick={handleBackHome}
+                class="back-home-button">
+            </lightning-button>
+
+            <c-onco-doctor-list
+                initial-facility-id={selectedFacilityId}
+                initial-facility-name={selectedFacilityName}
+                onback={handleBackToHospitals}>
+            </c-onco-doctor-list>
+        </div>
+    </template>
+</template>
