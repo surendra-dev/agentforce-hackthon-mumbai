@@ -35,21 +35,17 @@ public with sharing class TwilioWhatsAppAgentAction {
         String subject,
         String messageBody
     ) {
-        if (String.isBlank(toEmail) || String.isBlank(messageBody)) {
-            return;
-        }
+        sendEmail(toEmail, subject, messageBody, null);
+    }
 
-        Messaging.SingleEmailMessage email =
-            new Messaging.SingleEmailMessage();
-        email.setToAddresses(new List<String>{ toEmail });
-        email.setSubject(
-            String.isBlank(subject)
-                ? 'Onco Global Appointment Update'
-                : subject
-        );
-        email.setPlainTextBody(messageBody);
-
-        Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ email });
+    @future
+    public static void sendHtmlEmailAsync(
+        String toEmail,
+        String subject,
+        String plainTextBody,
+        String htmlBody
+    ) {
+        sendEmail(toEmail, subject, plainTextBody, htmlBody);
     }
 
     public static Response sendSms(
@@ -188,6 +184,52 @@ public with sharing class TwilioWhatsAppAgentAction {
                 r.errorMessage = String.valueOf(parsed.get('message'));
             }
         }
+    }
+
+    private static void sendEmail(
+        String toEmail,
+        String subject,
+        String plainTextBody,
+        String htmlBody
+    ) {
+        if (String.isBlank(toEmail) || String.isBlank(plainTextBody)) {
+            return;
+        }
+
+        Messaging.SingleEmailMessage email =
+            new Messaging.SingleEmailMessage();
+        email.setToAddresses(new List<String>{ toEmail });
+        email.setSubject(
+            String.isBlank(subject)
+                ? 'Onco Global Appointment Update'
+                : subject
+        );
+        email.setPlainTextBody(plainTextBody);
+        email.setSaveAsActivity(false);
+
+        if (!String.isBlank(htmlBody)) {
+            email.setHtmlBody(htmlBody);
+        }
+
+        Id orgWideEmailId = getOrgWideEmailId();
+        if (orgWideEmailId != null) {
+            email.setOrgWideEmailAddressId(orgWideEmailId);
+        }
+
+        Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ email });
+    }
+
+    private static Id getOrgWideEmailId() {
+        String oncoGlobalSearch = '%oncoglobal%';
+        List<OrgWideEmailAddress> addresses = [
+            SELECT Id
+            FROM OrgWideEmailAddress
+            WHERE Address LIKE :oncoGlobalSearch
+            OR DisplayName LIKE :oncoGlobalSearch
+            LIMIT 1
+        ];
+
+        return addresses.isEmpty() ? null : addresses[0].Id;
     }
 
 }

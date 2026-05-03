@@ -393,7 +393,14 @@ public without sharing class AppointmentController {
                 + '. Please save this for cancellation '
                 + 'or rescheduling.';
                 
-                sendAppointmentNotification(appt, res.displayText);
+                sendAppointmentNotification(
+                    appt,
+                    res.displayText,
+                    displayDoctor,
+                    hospitalName,
+                    dateStr2,
+                    timeStr
+                );
 
             } catch (Exception e) {
                 res.displayText =
@@ -503,7 +510,11 @@ public without sharing class AppointmentController {
     
     private static void sendAppointmentNotification(
         ServiceAppointment appt,
-        String messageBody
+        String messageBody,
+        String doctorName,
+        String hospitalName,
+        String appointmentDate,
+        String appointmentTime
     ) {
         String toNumber = null;
         String toEmail = null;
@@ -525,11 +536,141 @@ public without sharing class AppointmentController {
         }
 
         if (!String.isBlank(toEmail)) {
-            TwilioWhatsAppAgentAction.sendEmailAsync(
+            TwilioWhatsAppAgentAction.sendHtmlEmailAsync(
                 toEmail,
-                'Appointment Confirmed - Onco Global',
-                messageBody
+                'Your Appointment is Confirmed - '
+                    + appt.AppointmentNumber,
+                messageBody,
+                buildConfirmationEmail(
+                    appt.AppointmentNumber,
+                    appt.Contact.Name,
+                    doctorName,
+                    hospitalName,
+                    appointmentDate,
+                    appointmentTime
+                )
             );
         }
+    }
+
+    private static String buildConfirmationEmail(
+        String apptNumber,
+        String patientName,
+        String doctorName,
+        String hospitalName,
+        String apptDate,
+        String apptTime
+    ) {
+        String safeApptNumber = htmlEscape(apptNumber);
+        String safePatientName = htmlEscape(patientName);
+        String safeDoctorName = htmlEscape(doctorName);
+        String safeHospitalName = htmlEscape(hospitalName);
+        String safeApptDate = htmlEscape(apptDate);
+        String safeApptTime = htmlEscape(apptTime);
+
+        return '<!DOCTYPE html><html><head>'
+            + '<meta charset="UTF-8">'
+            + '<meta name="viewport" content="width=device-width">'
+            + '<style>'
+            + 'body{font-family:Arial,sans-serif;background:#f4f4f4;'
+            + 'margin:0;padding:0;}'
+            + '.container{max-width:600px;margin:20px auto;'
+            + 'background:#fff;border-radius:8px;overflow:hidden;'
+            + 'box-shadow:0 2px 10px rgba(0,0,0,0.1);}'
+            + '.header{background:#003087;padding:25px 30px;'
+            + 'text-align:center;}'
+            + '.header h1{color:#fff;margin:0;font-size:22px;'
+            + 'letter-spacing:1px;}'
+            + '.header p{color:#a8d0f0;margin:5px 0 0;'
+            + 'font-size:13px;}'
+            + '.badge{background:#27ae60;color:#fff;text-align:center;'
+            + 'padding:12px;font-size:16px;font-weight:bold;'
+            + 'letter-spacing:1px;}'
+            + '.appt-box{background:#eaf4ff;border:1px solid #b5d4f4;'
+            + 'text-align:center;padding:15px;margin:20px 30px;'
+            + 'border-radius:6px;}'
+            + '.appt-box p{margin:0;color:#555;font-size:13px;}'
+            + '.appt-box h2{margin:5px 0 0;color:#003087;'
+            + 'font-size:24px;letter-spacing:2px;}'
+            + '.section{padding:0 30px 20px;}'
+            + '.section h3{color:#003087;font-size:14px;'
+            + 'text-transform:uppercase;letter-spacing:1px;'
+            + 'border-bottom:2px solid #003087;padding-bottom:8px;}'
+            + 'td{padding:10px 0;font-size:13px;'
+            + 'border-bottom:1px solid #f0f0f0;}'
+            + '.label{color:#888;font-weight:bold;width:40%;}'
+            + '.value{color:#333;}'
+            + '.highlight{color:#003087;font-weight:bold;}'
+            + '.reminders{background:#fff8e1;'
+            + 'border-left:4px solid #ffc107;padding:15px 20px;'
+            + 'margin:0 30px 20px;border-radius:0 6px 6px 0;}'
+            + '.reminders h3{color:#856404;margin:0 0 10px;'
+            + 'font-size:14px;}'
+            + '.reminders ul{margin:0;padding-left:20px;color:#856404;'
+            + 'font-size:13px;}'
+            + '.reminders li{margin-bottom:6px;}'
+            + '.helpline{text-align:center;padding:15px 30px;'
+            + 'background:#f8f9fa;border-top:1px solid #eee;}'
+            + '.helpline p{margin:3px 0;color:#666;font-size:13px;}'
+            + '.footer{background:#003087;padding:15px 30px;'
+            + 'text-align:center;}'
+            + '.footer p{color:#a8d0f0;font-size:11px;margin:3px 0;}'
+            + '</style></head><body>'
+            + '<div class="container">'
+            + '<div class="header"><h1>ONCO GLOBAL CARE</h1>'
+            + '<p>Your Health, Our Priority</p></div>'
+            + '<div class="badge">APPOINTMENT CONFIRMED</div>'
+            + '<div class="appt-box"><p>Your Appointment Number</p>'
+            + '<h2>' + safeApptNumber + '</h2>'
+            + '<p style="font-size:11px;color:#888;margin-top:5px;">'
+            + 'Save this number for future reference</p></div>'
+            + '<div class="section"><h3>Appointment Details</h3>'
+            + '<table width="100%" cellpadding="0" cellspacing="0">'
+            + '<tr><td class="label">Patient</td><td class="value">'
+            + safePatientName + '</td></tr>'
+            + '<tr><td class="label">Doctor</td><td class="value">'
+            + safeDoctorName + '</td></tr>'
+            + '<tr><td class="label">Hospital</td><td class="value">'
+            + safeHospitalName + '</td></tr>'
+            + '<tr><td class="label">Date</td>'
+            + '<td class="value highlight">' + safeApptDate
+            + '</td></tr>'
+            + '<tr><td class="label" style="border-bottom:none;">Time</td>'
+            + '<td class="value highlight" style="border-bottom:none;">'
+            + safeApptTime + '</td></tr>'
+            + '</table></div>'
+            + '<div class="reminders"><h3>Important Reminders</h3><ul>'
+            + '<li>Please arrive <strong>15 minutes early</strong></li>'
+            + '<li>Bring your <strong>medical records</strong> and '
+            + '<strong>ID proof</strong></li>'
+            + '<li>Carry <strong>insurance documents</strong> '
+            + 'if applicable</li>'
+            + '<li>Wear comfortable clothing</li>'
+            + '</ul></div>'
+            + '<div class="helpline"><p>Need to reschedule or cancel?</p>'
+            + '<p><strong style="color:#003087;font-size:15px;">'
+            + '1800-ONCO-CARE</strong></p>'
+            + '<p style="margin-top:8px;">Visit: '
+            + 'oncoglobal.force.com/care</p></div>'
+            + '<div class="footer">'
+            + '<p>Onco Global Cancer Care Network</p>'
+            + '<p>Mumbai | Delhi | Bangalore | Chennai | Hyderabad | Pune</p>'
+            + '<p>Kolkata | Ahmedabad | Jaipur | Lucknow</p>'
+            + '<p style="font-size:10px;margin-top:8px;">'
+            + 'This is an automated email. Please do not reply.</p>'
+            + '</div></div></body></html>';
+    }
+
+    private static String htmlEscape(String value) {
+        if (value == null) {
+            return '';
+        }
+
+        return value
+            .replace('&', '&amp;')
+            .replace('<', '&lt;')
+            .replace('>', '&gt;')
+            .replace('"', '&quot;')
+            .replace('\'', '&#39;');
     }
 }
